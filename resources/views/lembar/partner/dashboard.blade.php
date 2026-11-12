@@ -1,0 +1,13 @@
+@extends('layouts.workspace')
+
+@section('title', 'Ruang Kerja Mitra — Lembar')
+@section('page-title', 'Dashboard mitra')
+
+@section('content')
+<section class="page active" id="page-partner-home" data-title="Dashboard mitra">
+<div class="page-head"><div><h1>Ruang kerja mitra.</h1><p>Kelola pesanan masuk dan kapasitas layananmu.</p></div><span class="status-pill green">Mitra aktif</span></div>
+        <div class="role-banner"><div><strong>Mode preview mitra</strong><p>Di sini kamu dapat mencoba alur menerima dan memproses pesanan pelanggan.</p></div><button class="btn secondary small" data-page-link="partner-services">Atur layanan</button></div>
+        <div class="grid-3" style="margin-bottom:19px"><div class="stat-card"><div class="stat-top"><span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8"/></svg></span></div><strong id="partner-incoming-count">2</strong><small>Pesanan masuk</small></div><div class="stat-card"><div class="stat-top"><span class="stat-icon" style="background:var(--amber-soft);color:var(--amber)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span></div><strong id="partner-active-count">3</strong><small>Dalam pengerjaan</small></div><div class="stat-card"><div class="stat-top"><span class="stat-icon" style="background:var(--blue-soft);color:var(--tone-24)"><svg viewBox="0 0 24 24"><path d="M4 18 9 12l4 3 7-9"/></svg></span></div><strong>Rp425.000</strong><small>Ilustrasi pendapatan bulan ini</small></div></div>
+        <div class="grid-2"><div class="panel"><div class="panel-head"><div><h3>Pesanan baru</h3><p>Periksa sebelum menerima pekerjaan</p></div><button class="text-link" data-page-link="partner-incoming">Lihat semua</button></div><div class="action-list" id="partner-incoming-preview"></div></div><div class="panel"><div class="panel-head"><div><h3>Kapasitas hari ini</h3><p>Pengaturan contoh untuk Mitra Print Sudut</p></div><button class="text-link" data-page-link="partner-schedule">Atur jadwal</button></div><div style="display:flex;align-items:end;justify-content:space-between;margin:8px 0"><div><strong style="font-size:30px;letter-spacing:-1px">3 / 6</strong><div class="small-text muted">Pesanan aktif</div></div><span class="status-pill green">Masih tersedia</span></div><div style="height:7px;border-radius:10px;background:var(--tone-77);overflow:clip"><div style="width:50%;height:100%;background:var(--brand);border-radius:10px"></div></div><p class="inline-note">Kapasitas contoh dapat diubah pada halaman jadwal. Sistem produksi perlu mengunci slot saat pesanan diterima.</p></div></div>
+</section>
+@endsection
