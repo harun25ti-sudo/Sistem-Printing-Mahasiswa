@@ -1,50 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!-- Primary Meta Tags -->
-<title>Volt - Free Bootstrap 5 Dashboard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="title" content="Volt - Free Bootstrap 5 Dashboard">
-<meta name="author" content="Themesberg">
-<!-- Favicon -->
-<link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets-admin/img/favicon/apple-touch-icon.png') }}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets-admin/img/favicon/favicon-32x32.png') }}">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets-admin/img/favicon/favicon-16x16.png') }}">
-<link rel="manifest" href="{{ asset('assets-admin/img/favicon/site.webmanifest') }}">
-<link rel="mask-icon" href="{{ asset('assets-admin/img/favicon/safari-pinned-tab.svg') }}" color="#ffffff">
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="theme-color" content="#ffffff">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DropX Admin - Sistem Printing Mahasiswa</title>
 
-{{-- start css --}}
-@include('layouts.admin.css')
-{{-- end css --}}
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="{{ asset('assets-admin/brand/datadropx-icon-color.png') }}">
+
+  {{-- start css --}}
+  @include('layouts.admin.css')
+  {{-- end css --}}
 </head>
-<body>
+<body class="bg-gray-50 text-gray-900 antialiased">
 
-{{-- start sidebar --}}
-@include('layouts.admin.sidebar')
-{{-- end sidebar --}}
+  <div class="flex h-screen overflow-hidden">
+    {{-- start sidebar --}}
+    @include('layouts.admin.sidebar')
+    {{-- end sidebar --}}
 
-<main class="content">
+    <div class="flex flex-1 flex-col overflow-hidden">
+      {{-- start header --}}
+      @include('layouts.admin.header')
+      {{-- end header --}}
 
-{{-- start header --}}
-@include('layouts.admin.header')
-{{-- end header --}}
+      <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+        {{-- start main content --}}
+        @yield('content')
+        {{-- end main content --}}
 
-{{-- start main content --}}
-@yield('content')
-{{-- end main content --}}
+        {{-- start footer --}}
+        @include('layouts.admin.footer')
+        {{-- end footer --}}
+      </main>
+    </div>
+  </div>
 
-{{-- start footer --}}
-@include('layouts.admin.footer')
-{{-- end footer --}}
-
-</main>
-
-{{-- start js --}}
-@include('layouts.admin.js')
-{{-- end js --}}
+  {{-- start js --}}
+  @include('layouts.admin.js')
+  {{-- end js --}}
 
 </body>
 </html>

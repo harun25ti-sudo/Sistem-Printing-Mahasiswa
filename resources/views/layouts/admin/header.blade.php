@@ -1,51 +1,50 @@
-<nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark ps-0 pe-2 pb-0">
-<div class="container-fluid px-0">
-<div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
-<div class="d-flex align-items-center">
-<!-- Search form -->
-<form class="navbar-search form-inline" id="navbar-search-main">
-<div class="input-group input-group-merge search-bar">
-<span class="input-group-text" id="topbar-addon">
-<svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd">
-</path>
-</svg>
-</span>
-<input type="text" class="form-control" id="topbarInput" placeholder="Search" aria-label="Search" aria-describedby="topbar-addon">
-</div>
-</form>
-<!-- / Search form -->
-</div>
-<!-- Navbar links -->
-<ul class="navbar-nav align-items-center">
-<li class="nav-item dropdown ms-lg-3">
-<a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-<div class="media d-flex align-items-center">
-<img class="avatar rounded-circle" alt="Image placeholder" src="{{ asset('assets-admin/img/team/profile-picture-3.jpg') }}">
-<div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-<span class="mb-0 font-small fw-bold text-gray-900">Bonnie Green</span>
-</div>
-</div>
-</a>
-<div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
-<a class="dropdown-item d-flex align-items-center" href="#">
-<svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd">
-</path>
-</svg>
-My Profile
-</a>
-<div role="separator" class="dropdown-divider my-1"></div>
-<a class="dropdown-item d-flex align-items-center" href="#">
-<svg class="dropdown-icon text-danger me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
-</path>
-</svg>
-Logout
-</a>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</nav>
+<!-- DropX Admin Header -->
+<header class="sticky top-0 z-30 flex h-[68px] items-center justify-between border-b border-border bg-white/95 px-4 lg:px-6 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+  <div class="flex items-center gap-3">
+    <!-- Hamburger button for mobile -->
+    <button onclick="toggleMobileSidebar()" class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-white text-gray-500 shadow-sm transition hover:border-primary hover:text-primary lg:hidden" aria-label="Toggle sidebar">
+      <i data-lucide="menu" class="h-5 w-5"></i>
+    </button>
+
+    <!-- Search Bar -->
+    <div class="relative hidden sm:block w-64 md:w-80">
+      <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+        <i data-lucide="search" class="h-4 w-4"></i>
+      </div>
+      <input type="text" placeholder="Search orders, customers, logs... (Ctrl+K)" class="w-full rounded-lg border border-border bg-gray-50/50 py-1.5 pl-9 pr-3 text-xs placeholder-gray-400 focus:border-primary focus:bg-white focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+    </div>
+  </div>
+
+  <!-- Header Right Actions -->
+  <div class="flex items-center gap-2 sm:gap-3">
+    <!-- System Status Pill -->
+    <div class="hidden md:flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-2xs font-medium text-emerald-700">
+      <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+      System Active (PHP 8.3)
+    </div>
+
+    <!-- Notifications Button -->
+    <button class="relative flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-white text-gray-500 shadow-sm transition hover:border-primary hover:text-primary" title="Notifikasi">
+      <i data-lucide="bell" class="h-4 w-4"></i>
+      <span class="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-rose-500"></span>
+    </button>
+
+    <!-- View Site Link -->
+    <a href="{{ route('home') }}" class="hidden sm:flex h-9 items-center gap-1.5 rounded-lg border border-border bg-white px-3 text-xs font-medium text-gray-600 shadow-sm transition hover:border-primary hover:text-primary">
+      <i data-lucide="globe" class="h-3.5 w-3.5"></i>
+      <span>Front Page</span>
+    </a>
+
+    <!-- Divider -->
+    <div class="h-6 w-px bg-border mx-1"></div>
+
+    <!-- User Profile Dropdown / Card -->
+    <div class="flex items-center gap-2.5 pl-1">
+      <img src="{{ asset('assets-admin/images/avatars/avatar-1.svg') }}" alt="Profile" class="h-9 w-9 rounded-full border border-border bg-primary/10">
+      <div class="hidden sm:block text-left">
+        <p class="text-xs font-semibold text-gray-900 leading-none">Harun Al Rasyid</p>
+        <span class="text-2xs text-muted-foreground font-medium">Administrator</span>
+      </div>
+    </div>
+  </div>
+</header>
