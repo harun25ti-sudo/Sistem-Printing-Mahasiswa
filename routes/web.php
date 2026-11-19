@@ -1,27 +1,53 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KurirController;
 use App\Http\Controllers\LembarController;
+use App\Http\Controllers\MitraController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
 
+// Public Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::post('question/store', [QuestionController::class, 'store'])
-    ->name('question.store');
+// Auth: Login, Register, Logout
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('question/respon', [QuestionController::class, 'respon'])
-    ->name('question.respon');
+// Questions
+Route::post('question/store', [QuestionController::class, 'store'])->name('question.store');
+Route::get('question/respon', [QuestionController::class, 'respon'])->name('question.respon');
 
-Route::get('dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard');
+// Main Admin Dashboard
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+// CRUD Pelanggan (Data Pembeli)
 Route::resource('pelanggan', PelangganController::class);
 
+// CRUD User & Quick Role Switcher
+Route::patch('user/{id}/role', [UserController::class, 'updateRole'])->name('user.update-role');
 Route::resource('user', UserController::class);
+
+// CRUD Mitra
+Route::resource('mitra', MitraController::class);
+
+// CRUD Kurir
+Route::resource('kurir', KurirController::class);
+
+// Verifikasi Akun (Mitra, Kurir, Admin)
+Route::prefix('admin/verification')->name('admin.verification.')->group(function () {
+    Route::get('/', [VerificationController::class, 'index'])->name('index');
+    Route::patch('/{id}/approve', [VerificationController::class, 'approve'])->name('approve');
+    Route::patch('/{id}/reject', [VerificationController::class, 'reject'])->name('reject');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -68,4 +94,3 @@ Route::prefix('lembar')->name('lembar.')->group(function () {
         Route::get('/complaints', [LembarController::class, 'adminComplaints'])->name('complaints');
     });
 });
-

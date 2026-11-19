@@ -2,95 +2,86 @@
 
 @section('content')
 <div class="py-4">
-<nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-<ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-<li class="breadcrumb-item">
-<a href="#">
-<svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
-</path>
-</svg>
-</a>
-</li>
-<li class="breadcrumb-item"><a href="{{ route('user.index') }}">User</a></li>
-<li class="breadcrumb-item active" aria-current="page">Tambah User</li>
-</ol>
-</nav>
-<div class="d-flex justify-content-between w-100 flex-wrap">
-<div class="mb-3 mb-lg-0">
-<h1 class="h4">Tambah User</h1>
-<p class="mb-0">Form untuk menambahkan data user baru.</p>
-</div>
-<div>
-<a href="{{ route('user.index') }}" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
-Kembali
-</a>
-</div>
-</div>
-</div>
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="flex items-center gap-2 text-sm text-muted-foreground">
+            <li><a href="{{ route('dashboard') }}" class="hover:text-gray-900 transition-colors"><i data-lucide="home" class="h-4 w-4 inline -mt-0.5"></i></a></li>
+            <li class="text-gray-400">/</li>
+            <li><a href="{{ route('user.index') }}" class="hover:text-gray-900 transition-colors">Data User</a></li>
+            <li class="text-gray-400">/</li>
+            <li class="font-medium text-gray-900">Tambah User</li>
+        </ol>
+    </nav>
 
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="flex items-end justify-between gap-4 mb-6">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tight text-gray-900">Tambah User Baru</h1>
+            <p class="mt-1 text-sm text-muted-foreground">Buat akun user baru dan tentukan peran/role-nya.</p>
+        </div>
+        <a href="{{ route('user.index') }}" class="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+            <i data-lucide="arrow-left" class="h-4 w-4"></i> Kembali
+        </a>
     </div>
-@endif
 
-@if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    @if ($errors->any())
+        <div class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <strong class="block font-semibold mb-1">Terdapat kesalahan input:</strong>
+            <ul class="list-disc list-inside space-y-0.5">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <div class="max-w-2xl">
+        <div class="rounded-xl border border-border bg-white p-6 shadow-sm">
+            <form action="{{ route('user.store') }}" method="POST">
+                @csrf
+                <div class="space-y-4">
+                    <div>
+                        <label for="name" class="block text-xs font-semibold text-gray-600 mb-1.5">Nama Lengkap <span class="text-red-500">*</span></label>
+                        <input type="text" id="name" name="name" value="{{ old('name') }}" required
+                            class="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-xs font-semibold text-gray-600 mb-1.5">Email <span class="text-red-500">*</span></label>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                            class="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                    </div>
+
+                    <div>
+                        <label for="role" class="block text-xs font-semibold text-gray-600 mb-1.5">Peran / Role Akun <span class="text-red-500">*</span></label>
+                        <select id="role" name="role" required
+                            class="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                            <option value="pelanggan" {{ old('role') === 'pelanggan' ? 'selected' : '' }}>Pelanggan (Pembeli)</option>
+                            <option value="mitra" {{ old('role') === 'mitra' ? 'selected' : '' }}>Mitra Printing</option>
+                            <option value="kurir" {{ old('role') === 'kurir' ? 'selected' : '' }}>Kurir</option>
+                            <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Administrator</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="password" class="block text-xs font-semibold text-gray-600 mb-1.5">Password <span class="text-red-500">*</span></label>
+                            <input type="password" id="password" name="password" required minlength="8"
+                                class="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                        </div>
+                        <div>
+                            <label for="password_confirmation" class="block text-xs font-semibold text-gray-600 mb-1.5">Konfirmasi Password <span class="text-red-500">*</span></label>
+                            <input type="password" id="password_confirmation" name="password_confirmation" required minlength="8"
+                                class="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm">
+                            <i data-lucide="save" class="h-4 w-4"></i> Simpan User
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-@endif
-
-<div class="row">
-<div class="col-12 mb-4">
-<div class="card border-0 shadow components-section">
-<div class="card-body">
-<form action="{{ route('user.store') }}" method="POST">
-@csrf
-<div class="row mb-4">
-<div class="col-lg-6 col-sm-12">
-<div class="mb-3">
-<label for="name">Name</label>
-<input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
-@error('name')
-<div class="invalid-feedback">{{ $message }}</div>
-@enderror
-</div>
-<div class="mb-3">
-<label for="email">Email</label>
-<input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}">
-@error('email')
-<div class="invalid-feedback">{{ $message }}</div>
-@enderror
-</div>
-</div>
-
-<div class="col-lg-6 col-sm-12">
-<div class="mb-3">
-<label for="password">Password</label>
-<input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
-@error('password')
-<div class="invalid-feedback">{{ $message }}</div>
-@enderror
-</div>
-<div class="mb-3">
-<label for="password_confirmation">Confirm Password</label>
-<input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
-</div>
-</div>
-</div>
-
-<div class="row">
-<div class="col-12">
-<button type="submit" class="btn btn-primary">Simpan</button>
-<a href="{{ route('user.index') }}" class="btn btn-outline-secondary ms-2">Batal</a>
-</div>
-</div>
-</form>
-</div>
-</div>
-</div>
 </div>
 @endsection

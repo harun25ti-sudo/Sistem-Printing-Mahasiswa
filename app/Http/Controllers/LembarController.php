@@ -84,29 +84,29 @@ class LembarController extends Controller
         return view('lembar.courier.history', ['defaultRole' => 'courier']);
     }
 
-    // Role: Administrator
+    // Role: Administrator (Render ke Template Admin DropX / Lembar Admin Theme)
     public function adminDashboard()
     {
-        return view('lembar.admin.dashboard', ['defaultRole' => 'admin']);
+        return redirect()->route('dashboard');
     }
 
     public function adminPartners()
     {
-        return view('lembar.admin.partners', ['defaultRole' => 'admin']);
+        return redirect()->route('mitra.index');
     }
 
     public function adminOrders()
     {
-        return view('lembar.admin.orders', ['defaultRole' => 'admin']);
+        return view('admin.orders.index');
     }
 
     public function adminPayments()
     {
-        return view('lembar.admin.payments', ['defaultRole' => 'admin']);
+        return view('admin.payments.index');
     }
 
     public function adminComplaints()
     {
-        return view('lembar.admin.complaints', ['defaultRole' => 'admin']);
+        return view('admin.complaints.index');
     }
 }

@@ -2,82 +2,150 @@
 
 @section('content')
 <div class="py-4">
-<nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-<ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-<li class="breadcrumb-item">
-<a href="#">
-<svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
-</path>
-</svg>
-</a>
-</li>
-<li class="breadcrumb-item"><a href="{{ route('user.index') }}">User</a></li>
-</ol>
-</nav>
-<div class="d-flex justify-content-between w-100 flex-wrap">
-<div class="mb-3 mb-lg-0">
-<h1 class="h4">Data User</h1>
-<p class="mb-0">List data seluruh user</p>
-</div>
-<div>
-<a href="{{ route('user.create') }}" class="btn btn-success text-white"><i class="far fa-question-circle me-1"></i> Tambah User</a>
-</div>
-</div>
-</div>
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="flex items-center gap-2 text-sm text-muted-foreground">
+            <li><a href="{{ route('dashboard') }}" class="hover:text-gray-900 transition-colors"><i data-lucide="home" class="h-4 w-4 inline -mt-0.5"></i></a></li>
+            <li class="text-gray-400">/</li>
+            <li class="font-medium text-gray-900">Data User</li>
+        </ol>
+    </nav>
 
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="flex items-end justify-between gap-4 mb-6">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tight text-gray-900">Data User & Kelola Role</h1>
+            <p class="mt-1 text-sm text-muted-foreground">Kelola akun dan ganti role (Pelanggan, Mitra, Kurir, Admin) secara instan seperti di preview.</p>
+        </div>
+        <a href="{{ route('user.create') }}" class="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm">
+            <i data-lucide="plus" class="h-4 w-4"></i> Tambah User
+        </a>
     </div>
-@endif
 
-<div class="row">
-<div class="col-12 mb-4">
-<div class="card border-0 shadow mb-4">
-<div class="card-body">
-<div class="table-responsive">
-<table id="table-user" class="table table-centered table-nowrap mb-0 rounded">
-<thead class="thead-light">
-<tr>
-<th class="border-0">NAME</th>
-<th class="border-0">EMAIL</th>
-<th class="border-0">PASSWORD</th>
-<th class="border-0 rounded-end">ACTION</th>
-</tr>
-</thead>
-<tbody>
-@foreach($dataUser as $item)
-<tr>
-<td>{{ $item->name }}</td>
-<td>{{ $item->email }}</td>
-<td class="text-truncate" style="max-width: 250px;">{{ $item->password }}</td>
-<td>
-    <a href="{{ route('user.edit', $item->id) }}" class="btn btn-info btn-sm">
-        <svg class="icon icon-xs me-2" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
-        </svg>
-        Edit
-    </a>
-    <form action="{{ route('user.destroy', $item->id) }}" method="POST" style="display:inline">
-        @csrf
-        @method("DELETE")
-        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-            <svg class="icon icon-xs me-2" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12.562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"></path>
-            </svg>
-            Hapus
-        </button>
-    </form>
-</td>
-</tr>
-@endforeach
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
+    @if (session('success'))
+        <div class="mb-4 flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+            <i data-lucide="check-circle" class="h-4 w-4 flex-shrink-0 text-green-600"></i>
+            {{ session('success') }}
+        </div>
+    @endif
+
+    {{-- Stats Row Per Role --}}
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 mb-6">
+        <div class="rounded-xl border border-border bg-white p-4 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+                <span class="rounded-lg bg-blue-50 p-2 text-blue-600"><i data-lucide="users" class="h-4 w-4"></i></span>
+                <span class="text-xs font-semibold text-blue-600">Pelanggan</span>
+            </div>
+            <strong class="block text-2xl font-bold text-gray-900">{{ $dataUser->where('role', 'pelanggan')->count() }}</strong>
+            <small class="text-xs text-muted-foreground">Akun Pembeli</small>
+        </div>
+
+        <div class="rounded-xl border border-border bg-white p-4 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+                <span class="rounded-lg bg-green-50 p-2 text-green-600"><i data-lucide="store" class="h-4 w-4"></i></span>
+                <span class="text-xs font-semibold text-green-600">Mitra</span>
+            </div>
+            <strong class="block text-2xl font-bold text-gray-900">{{ $dataUser->where('role', 'mitra')->count() }}</strong>
+            <small class="text-xs text-muted-foreground">Mitra Printing</small>
+        </div>
+
+        <div class="rounded-xl border border-border bg-white p-4 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+                <span class="rounded-lg bg-orange-50 p-2 text-orange-500"><i data-lucide="truck" class="h-4 w-4"></i></span>
+                <span class="text-xs font-semibold text-orange-500">Kurir</span>
+            </div>
+            <strong class="block text-2xl font-bold text-gray-900">{{ $dataUser->where('role', 'kurir')->count() }}</strong>
+            <small class="text-xs text-muted-foreground">Kurir Pengantar</small>
+        </div>
+
+        <div class="rounded-xl border border-border bg-white p-4 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+                <span class="rounded-lg bg-purple-50 p-2 text-purple-600"><i data-lucide="shield" class="h-4 w-4"></i></span>
+                <span class="text-xs font-semibold text-purple-600">Admin</span>
+            </div>
+            <strong class="block text-2xl font-bold text-gray-900">{{ $dataUser->where('role', 'admin')->count() }}</strong>
+            <small class="text-xs text-muted-foreground">Administrator</small>
+        </div>
+    </div>
+
+    {{-- Table --}}
+    <div class="rounded-xl border border-border bg-white shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full min-w-[700px] text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-border bg-gray-50/80">
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">#</th>
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Nama & Info</th>
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Email</th>
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Role Saat Ini</th>
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Ganti Role Cepat</th>
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                    @forelse($dataUser as $i => $item)
+                    <tr class="hover:bg-gray-50/50 transition-colors">
+                        <td class="px-4 py-3 text-xs text-muted-foreground">{{ $i + 1 }}</td>
+                        <td class="px-4 py-3">
+                            <div class="flex items-center gap-3">
+                                <span class="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm flex-shrink-0">
+                                    {{ strtoupper(substr($item->name, 0, 2)) }}
+                                </span>
+                                <div>
+                                    <strong class="block text-sm font-semibold text-gray-900">{{ $item->name }}</strong>
+                                    <small class="text-xs text-muted-foreground">Terdaftar {{ $item->created_at ? $item->created_at->format('d M Y') : '-' }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3 text-sm text-gray-700">{{ $item->email }}</td>
+                        <td class="px-4 py-3">
+                            @if($item->role === 'admin')
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-purple-50 px-2.5 py-0.5 text-xs font-medium text-purple-700"><span class="h-1.5 w-1.5 rounded-full bg-purple-500"></span>Administrator</span>
+                            @elseif($item->role === 'mitra')
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700"><span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>Mitra Printing</span>
+                            @elseif($item->role === 'kurir')
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-orange-50 px-2.5 py-0.5 text-xs font-medium text-orange-700"><span class="h-1.5 w-1.5 rounded-full bg-orange-500"></span>Kurir</span>
+                            @else
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700"><span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span>Pelanggan</span>
+                            @endif
+                        </td>
+                        <td class="px-4 py-3">
+                            {{-- Role Switcher form --}}
+                            <form action="{{ route('user.update-role', $item->id) }}" method="POST" class="inline-flex items-center gap-2">
+                                @csrf
+                                @method('PATCH')
+                                <select name="role" onchange="this.form.submit()"
+                                    class="rounded-lg border border-border bg-white px-2.5 py-1 text-xs font-medium text-gray-700 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                                    <option value="pelanggan" {{ ($item->role ?? 'pelanggan') === 'pelanggan' ? 'selected' : '' }}>Pelanggan</option>
+                                    <option value="mitra" {{ ($item->role ?? '') === 'mitra' ? 'selected' : '' }}>Mitra</option>
+                                    <option value="kurir" {{ ($item->role ?? '') === 'kurir' ? 'selected' : '' }}>Kurir</option>
+                                    <option value="admin" {{ ($item->role ?? '') === 'admin' ? 'selected' : '' }}>Admin</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="flex items-center gap-1.5">
+                                <a href="{{ route('user.edit', $item->id) }}" class="inline-flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 transition-colors" title="Edit">
+                                    <i data-lucide="pencil" class="h-3.5 w-3.5"></i>
+                                </a>
+                                <form action="{{ route('user.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="inline-flex items-center gap-1 rounded-lg border border-red-200 px-2.5 py-1.5 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 transition-colors" title="Hapus">
+                                        <i data-lucide="trash-2" class="h-3.5 w-3.5"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="px-4 py-12 text-center text-muted-foreground">
+                            Belum ada data user.
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 @endsection

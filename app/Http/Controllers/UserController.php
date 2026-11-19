@@ -33,12 +33,14 @@ class UserController extends Controller
         $request->validate([
             'name'                  => 'required|string|max:100',
             'email'                 => 'required|email|unique:users,email',
+            'role'                  => 'required|in:pelanggan,mitra,kurir,admin',
             'password'              => 'required|min:8|confirmed',
         ]);
 
         $data = [
             'name'     => $request->name,
             'email'    => $request->email,
+            'role'     => $request->role,
             'password' => Hash::make($request->password),
         ];
 
@@ -75,12 +77,14 @@ class UserController extends Controller
         $request->validate([
             'name'                  => 'required|string|max:100',
             'email'                 => 'required|email|unique:users,email,' . $id,
+            'role'                  => 'required|in:pelanggan,mitra,kurir,admin',
             'password'              => 'nullable|min:8|confirmed',
         ]);
 
         $data = [
             'name'  => $request->name,
             'email' => $request->email,
+            'role'  => $request->role,
         ];
 
         if ($request->filled('password')) {
@@ -90,6 +94,21 @@ class UserController extends Controller
         $user->update($data);
 
         return redirect()->route('user.index')->with('success', 'Pembaruan Data Berhasil!');
+    }
+
+    /**
+     * Update only the role of a user (quick switcher)
+     */
+    public function updateRole(Request $request, string $id)
+    {
+        $user = User::findOrFail($id);
+        $request->validate([
+            'role' => 'required|in:pelanggan,mitra,kurir,admin',
+        ]);
+
+        $user->update(['role' => $request->role]);
+
+        return redirect()->back()->with('success', "Role {$user->name} berhasil diubah menjadi {$user->role_label}!");
     }
 
     /**
