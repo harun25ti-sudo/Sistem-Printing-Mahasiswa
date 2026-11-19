@@ -1,6 +1,108 @@
+
+
 @extends('layouts.admin.app')
 
 @section('content')
+<style>
+/* ===== Kartu ===== */
+.components-section{
+    background:#fff; border:1px solid #e5e7eb; border-radius:14px;
+    box-shadow:0 4px 18px rgba(0,0,0,.06); color:#374151; font-size:14px;
+}
+.components-section .card-body{ padding:28px 32px; }
+
+/* ===== Grid 12 kolom (menggantikan row/col Bootstrap) ===== */
+.components-section .row{
+    display:grid; grid-template-columns:repeat(12,minmax(0,1fr));
+    column-gap:20px; margin:0;
+}
+.components-section .row > [class*="col-"]{
+    grid-column:span 12; width:auto; max-width:none; padding:0; margin:0;
+}
+@media (min-width:576px){
+    .components-section .row > .col-sm-6{ grid-column:span 6; }
+}
+@media (min-width:768px){
+    .components-section .row > .col-md-6{ grid-column:span 6; }
+    .components-section .row > .col-md-3{ grid-column:span 3; }
+}
+@media (min-width:992px){
+    .components-section .row > .col-lg-4{ grid-column:span 4; }
+}
+
+/* ===== Utilitas yang dipakai di form ===== */
+.components-section .mb-3{ margin-bottom:16px; }
+.components-section .mb-4{ margin-bottom:24px; }
+.components-section .mt-3{ margin-top:16px; }
+.components-section .pb-2{ padding-bottom:8px; }
+.components-section .ms-2{ margin-left:8px; }
+.components-section .text-danger{ color:#dc2626; }
+.components-section .border-bottom{ border-bottom:2px solid #e5e7eb; }
+
+/* ===== Judul bagian ===== */
+.components-section h5{
+    margin:0 0 16px; font-size:16px; font-weight:700; color:#111827;
+}
+
+/* ===== Label ===== */
+.components-section label{
+    display:block; margin-bottom:6px;
+    font-size:13px; font-weight:600; color:#374151;
+}
+
+/* ===== Input, select, textarea ===== */
+.components-section .form-control,
+.components-section .form-select{
+    display:block; width:100%; box-sizing:border-box;
+    padding:10px 12px; background:#fff; color:#111827;
+    border:1px solid #d1d5db; border-radius:8px;
+    font-size:14px; outline:none;
+    transition:border-color .15s, box-shadow .15s;
+}
+.components-section textarea.form-control{ min-height:110px; resize:vertical; }
+.components-section .form-control::placeholder{ color:#9ca3af; }
+.components-section .form-control:focus,
+.components-section .form-select:focus{
+    border-color:#2563eb; box-shadow:0 0 0 3px rgba(37,99,235,.15);
+}
+
+/* ===== Input group (ikon kalender Birthday) ===== */
+.components-section .input-group{ display:flex; align-items:stretch; flex-wrap:wrap; }
+.components-section .input-group-text{
+    display:flex; align-items:center; padding:0 12px;
+    background:#f3f4f6; border:1px solid #d1d5db; border-right:0;
+    border-radius:8px 0 0 8px; color:#6b7280;
+}
+.components-section .input-group .form-control{
+    flex:1 1 auto; width:1%; border-radius:0 8px 8px 0;
+}
+.components-section .icon-xs{ width:16px; height:16px; }
+
+/* ===== Upload file ===== */
+.components-section input[type=file].form-control{
+    padding:8px; background:#f8fafc; border:1px dashed #cbd5e1;
+}
+.components-section input[type=file]::file-selector-button{
+    margin-right:12px; padding:7px 14px; border:0; border-radius:6px;
+    background:#2563eb; color:#fff; font-weight:600; cursor:pointer;
+}
+.components-section .form-text{ margin-top:4px; font-size:12px; color:#6b7280; }
+
+/* ===== Error validasi ===== */
+.components-section .is-invalid{ border-color:#dc2626; }
+.components-section .invalid-feedback{ display:block; margin-top:4px; font-size:12px; color:#dc2626; }
+
+/* ===== Tombol ===== */
+.components-section .btn{
+    display:inline-block; padding:10px 22px; border-radius:8px;
+    font-size:14px; font-weight:600; text-decoration:none; cursor:pointer;
+    transition:background .15s;
+}
+.components-section .btn-primary{ background:#2563eb; color:#fff; border:1px solid #2563eb; }
+.components-section .btn-primary:hover{ background:#1d4ed8; }
+.components-section .btn-outline-secondary{ background:#fff; color:#4b5563; border:1px solid #d1d5db; }
+.components-section .btn-outline-secondary:hover{ background:#f3f4f6; }
+</style>
 <div class="py-4">
 <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
