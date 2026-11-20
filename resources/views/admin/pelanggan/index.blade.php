@@ -41,6 +41,32 @@
             <div class="card border-0 shadow mb-4">
                 <div class="card-body">
                     <div class="table-responsive">
+                        <form method="GET" action="{{ route('pelanggan.index') }}" class="mb-3">
+    <div class="row g-2">
+        {{-- Dropdown Filter Gender --}}
+        <div class="col-md-2">
+            <select name="gender" class="form-select" onchange="this.form.submit()">
+                <option value="">All Gender</option>
+                <option value="Male" {{ request('gender') == 'Male' ? 'selected' : '' }}>Male</option>
+                <option value="Female" {{ request('gender') == 'Female' ? 'selected' : '' }}>Female</option>
+            </select>
+        </div>
+
+        {{-- Input Search --}}
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" 
+                       placeholder="Cari nama, email, atau no. HP..." 
+                       value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+                @if(request('search') || request('gender'))
+                    <a href="{{ route('pelanggan.index') }}" class="btn btn-outline-secondary">Reset</a>
+                @endif
+            </div>
+        </div>
+    </div>
+</form>
+
                         <table id="table-pelanggan" class="table table-centered table-nowrap mb-0 rounded">
                             <thead class="thead-light">
                                 <tr>
@@ -106,6 +132,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="mt-3">
+                            {{ $dataPelanggan->withQueryString()->links('pagination::bootstrap-5') }}
+                        </div>
                     </div>
                 </div>
             </div>

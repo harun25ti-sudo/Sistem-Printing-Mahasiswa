@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Pelanggan extends Model
@@ -34,4 +35,28 @@ class Pelanggan extends Model
     {
         return "{$this->first_name} {$this->last_name}";
     }
+
+    public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
+    {
+        foreach ($filterableColumns as $column) {
+            if ($request->filled($column)) {
+                $query->where($column, $request->input($column));
+            }
+        }
+        return $query;
+    }
+
+        public function scopeSearch(Builder $query, $request, array $searchableColumns): Builder
+    {
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($searchableColumns, $search) {
+                foreach ($searchableColumns as $column) {
+                    $q->orWhere($column, 'LIKE', "%{$search}%");
+                }
+            });
+        }
+        return $query;
+    }
+
 }
