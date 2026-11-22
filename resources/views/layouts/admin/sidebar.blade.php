@@ -45,7 +45,7 @@
           <span class="flex-1">Dashboard</span>
         </a>
 
-        <!-- 2. Verifikasi Akun (Mitra & Kurir) -->
+        <!-- 2. Verifikasi Akun (Mitra & Kurir)  -->
         @php
           $pendingCount = \App\Models\User::whereIn('role', ['mitra', 'kurir', 'admin'])->where('status', 'pending')->count();
         @endphp
