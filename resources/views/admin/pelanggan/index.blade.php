@@ -1,143 +1,169 @@
 @extends('layouts.admin.app')
 
 @section('content')
-    <div class="py-4">
-        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-                <li class="breadcrumb-item">
-                    <a href="#">
-                        <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
-                            </path>
-                        </svg>
-                    </a>
-                </li>
-                <li class="breadcrumb-item"><a href="{{ route('pelanggan.index') }}">Pelanggan</a></li>
-            </ol>
-        </nav>
-        <div class="d-flex justify-content-between w-100 flex-wrap">
-            <div class="mb-3 mb-lg-0">
-                <h1 class="h4">Data Pelanggan</h1>
-                <p class="mb-0">List data seluruh pelanggan</p>
-            </div>
-            <div>
-                <a href="{{ route('pelanggan.create') }}" class="btn btn-success text-white"><i
-                        class="far fa-question-circle me-1"></i> Tambah Pelanggan</a>
-            </div>
+<div class="py-4">
+    {{-- Breadcrumb --}}
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="flex items-center gap-2 text-sm text-muted-foreground">
+            <li>
+                <a href="{{ route('dashboard') }}" class="hover:text-gray-900 transition-colors">
+                    <i data-lucide="home" class="h-4 w-4 inline -mt-0.5"></i>
+                </a>
+            </li>
+            <li class="text-gray-400">/</li>
+            <li class="font-medium text-gray-900">Data Pelanggan</li>
+        </ol>
+    </nav>
+
+    {{-- Header --}}
+    <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tight text-gray-900">Data Pelanggan</h1>
+            <p class="mt-1 text-sm text-muted-foreground">List data seluruh pelanggan yang terdaftar di sistem.</p>
         </div>
+        <a href="{{ route('pelanggan.create') }}" class="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm">
+            <i data-lucide="plus" class="h-4 w-4"></i>
+            Tambah Pelanggan
+        </a>
     </div>
 
+    {{-- Alert --}}
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="mb-4 flex items-center justify-between gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+            <div class="flex items-center gap-3">
+                <i data-lucide="check-circle" class="h-4 w-4 flex-shrink-0 text-green-600"></i>
+                <span>{{ session('success') }}</span>
+            </div>
         </div>
     @endif
 
-    <div class="row">
-        <div class="col-12 mb-4">
-            <div class="card border-0 shadow mb-4">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <form method="GET" action="{{ route('pelanggan.index') }}" class="mb-3">
-    <div class="row g-2">
-        {{-- Dropdown Filter Gender --}}
-        <div class="col-md-2">
-            <select name="gender" class="form-select" onchange="this.form.submit()">
-                <option value="">All Gender</option>
-                <option value="Male" {{ request('gender') == 'Male' ? 'selected' : '' }}>Male</option>
-                <option value="Female" {{ request('gender') == 'Female' ? 'selected' : '' }}>Female</option>
-            </select>
-        </div>
+    {{-- Filter & Search --}}
+    <div class="rounded-xl border border-border bg-white p-4 shadow-sm mb-4">
+        <form method="GET" action="{{ route('pelanggan.index') }}" class="flex flex-wrap items-center gap-3">
+            {{-- Dropdown Filter Gender --}}
+            <div class="w-full sm:w-44">
+                <select name="gender" onchange="this.form.submit()" class="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm text-gray-700 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                    <option value="">All Gender</option>
+                    <option value="Male" {{ request('gender') == 'Male' ? 'selected' : '' }}>Male</option>
+                    <option value="Female" {{ request('gender') == 'Female' ? 'selected' : '' }}>Female</option>
+                </select>
+            </div>
 
-        {{-- Input Search --}}
-        <div class="col-md-4">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" 
-                       placeholder="Cari nama, email, atau no. HP..." 
-                       value="{{ request('search') }}">
-                <button type="submit" class="btn btn-primary">Search</button>
-                @if(request('search') || request('gender'))
-                    <a href="{{ route('pelanggan.index') }}" class="btn btn-outline-secondary">Reset</a>
+            {{-- Input Search --}}
+            <div class="flex flex-1 min-w-[240px] items-center gap-2">
+                <div class="relative flex-1 max-w-md">
+                    <i data-lucide="search" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"></i>
+                    <input type="text" name="search"
+                           class="w-full rounded-lg border border-border bg-white pl-9 pr-3 py-2 text-sm text-gray-900 placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                           placeholder="Cari nama, email, atau no. HP..."
+                           value="{{ request('search') }}">
+                </div>
+                <button type="submit" class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary/90 transition-colors shadow-sm">
+                    Search
+                </button>
+                @if(request('search'))
+                    <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}"
+                       class="inline-flex items-center gap-1.5 rounded-lg border border-border bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                       id="clear-search">
+                        Clear
+                    </a>
                 @endif
             </div>
-        </div>
+        </form>
     </div>
-</form>
 
-                        <table id="table-pelanggan" class="table table-centered table-nowrap mb-0 rounded">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th class="border-0">First Name</th>
-                                    <th class="border-0">Last Name</th>
-                                    <th class="border-0">Birthday</th>
-                                    <th class="border-0">Gender</th>
-                                    <th class="border-0">Email</th>
-                                    <th class="border-0">Phone</th>
-                                    <th class="border-0 rounded-end">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($dataPelanggan as $item)
-                                    <tr>
-                                        <td>{{ $item->first_name }}</td>
-                                        <td>{{ $item->last_name }}</td>
-                                        <td>{{ $item->birthday }}</td>
-                                        <td>{{ $item->gender }}</td>
-                                        <td>{{ $item->email }}</td>
-                                        <td>{{ $item->phone }}</td>
-                                        <td>
-                                            <a href="{{ route('pelanggan.show', $item->pelanggan_id) }}"
-                                                class="btn btn-warning btn-sm me-1 text-dark" title="Lihat Portofolio">
-                                                <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                                                    <path fill-rule="evenodd"
-                                                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                                                        clip-rule="evenodd"></path>
-                                                </svg>
-                                                Portofolio
-                                            </a>
-                                            <a href="{{ route('pelanggan.edit', $item->pelanggan_id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <svg class="icon icon-xs me-2" data-slot="icon" fill="none"
-                                                    stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
-                                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10">
-                                                    </path>
-                                                </svg>
-                                                Edit
-                                            </a>
-                                            <form action="{{ route('pelanggan.destroy', $item->pelanggan_id) }}"
-                                                method="POST" style="display:inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                                    <svg class="icon icon-xs me-2" data-slot="icon" fill="none"
-                                                        stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
-                                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12.562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0">
-                                                        </path>
-                                                    </svg>
-                                                    Hapus
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="mt-3">
-                            {{ $dataPelanggan->withQueryString()->links('pagination::bootstrap-5') }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+    {{-- Table --}}
+    <div class="rounded-xl border border-border bg-white shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table id="table-pelanggan" class="w-full min-w-[780px] text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-border bg-gray-50/80">
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">#</th>
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Nama Pelanggan</th>
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Birthday</th>
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Gender</th>
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Email</th>
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Phone</th>
+                        <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                    @forelse ($dataPelanggan as $i => $item)
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="px-4 py-3 text-xs text-muted-foreground">
+                                {{ $dataPelanggan->firstItem() + $i }}
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center gap-3">
+                                    <span class="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs flex-shrink-0">
+                                        {{ strtoupper(substr($item->first_name, 0, 1) . substr($item->last_name, 0, 1)) }}
+                                    </span>
+                                    <div>
+                                        <strong class="block text-sm font-semibold text-gray-900">{{ $item->first_name }} {{ $item->last_name }}</strong>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 text-sm text-gray-700">{{ $item->birthday ?? '-' }}</td>
+                            <td class="px-4 py-3">
+                                @if($item->gender === 'Male')
+                                    <span class="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700">Male</span>
+                                @elseif($item->gender === 'Female')
+                                    <span class="inline-flex items-center rounded-full bg-pink-50 px-2.5 py-0.5 text-xs font-medium text-pink-700">Female</span>
+                                @else
+                                    <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">{{ $item->gender ?? '-' }}</span>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3 text-sm text-gray-700">{{ $item->email }}</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">{{ $item->phone ?? '-' }}</td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center gap-1.5">
+                                    <a href="{{ route('pelanggan.show', $item->pelanggan_id) }}"
+                                       class="inline-flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-xs font-medium text-amber-800 hover:bg-amber-100 transition-colors"
+                                       title="Lihat Portofolio">
+                                        <i data-lucide="eye" class="h-3.5 w-3.5"></i>
+                                        Portofolio
+                                    </a>
+                                    <a href="{{ route('pelanggan.edit', $item->pelanggan_id) }}"
+                                       class="inline-flex items-center gap-1 rounded-lg border border-border bg-blue-50 px-2.5 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-100 transition-colors"
+                                       title="Edit">
+                                        <i data-lucide="pencil" class="h-3.5 w-3.5"></i>
+                                        Edit
+                                    </a>
+                                    <form action="{{ route('pelanggan.destroy', $item->pelanggan_id) }}"
+                                          method="POST" class="inline"
+                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                class="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-2.5 py-1.5 text-xs font-medium text-red-600 hover:bg-red-100 transition-colors"
+                                                title="Hapus">
+                                            <i data-lucide="trash-2" class="h-3.5 w-3.5"></i>
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="px-4 py-12 text-center">
+                                <div class="flex flex-col items-center gap-2">
+                                    <i data-lucide="users" class="h-10 w-10 text-gray-300"></i>
+                                    <strong class="block text-sm font-semibold text-gray-700">Belum ada data pelanggan</strong>
+                                    <p class="text-xs text-muted-foreground">Data pelanggan tidak ditemukan atau belum ditambahkan.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
+
+        @if($dataPelanggan->hasPages())
+            <div class="border-t border-border bg-gray-50/50 px-4 py-3">
+                {{ $dataPelanggan->withQueryString()->onEachSide(2)->links('pagination::bootstrap-5') }}
+            </div>
+        @endif
     </div>
+</div>
 @endsection
