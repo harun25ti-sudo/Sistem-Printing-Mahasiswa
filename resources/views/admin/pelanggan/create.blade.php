@@ -14,7 +14,7 @@
     color:var(--pf-text); font-size:14px;
 }
 
-/* ---------- Header halaman ---------- */
+/* ---------- Header halam an ---------- */
 .pf-page .breadcrumb{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; list-style:none; margin:0 0 12px; padding:0; font-size:13px; }
 .pf-page .breadcrumb-item{ display:flex; align-items:center; gap:6px; color:var(--pf-muted); }
 .pf-page .breadcrumb-item + .breadcrumb-item::before{ content:"/"; color:#cbd5e1; }
