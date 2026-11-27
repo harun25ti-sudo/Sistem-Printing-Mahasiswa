@@ -33,7 +33,7 @@
 }
 .pf-page .components-section .card-body{ padding:0; }
 
-/* ---------- Grid 12 kolom ---------- */
+/* ---------- Grid 12 KOLOM ---------- */
 .pf-page .row{ display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); column-gap:20px; margin:0; }
 .pf-page .row > [class*="col-"]{ grid-column:span 12; width:auto; max-width:none; padding:0; margin:0; }
 @media (min-width:576px){ .pf-page .row > .col-sm-6{ grid-column:span 6; } }
