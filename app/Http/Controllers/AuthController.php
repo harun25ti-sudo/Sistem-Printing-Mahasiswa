@@ -54,6 +54,7 @@ class AuthController extends Controller
             }
 
             $request->session()->regenerate();
+            session(['last_login' => now()]);
 
             return redirect()->intended(route('dashboard'))
                 ->with('success', 'Selamat datang kembali, ' . $user->name . ' (' . $user->role_label . ')!');
@@ -119,6 +120,7 @@ class AuthController extends Controller
             // Auto login for customer
             Auth::login($user);
             $request->session()->regenerate();
+            session(['last_login' => now()]);
 
             return redirect()->route('dashboard')
                 ->with('success', 'Pendaftaran akun Pelanggan berhasil! Akun Anda langsung aktif.');

@@ -41,6 +41,9 @@
         <div class="hidden sm:block text-left">
           <p class="text-xs font-semibold text-gray-900 leading-none">{{ Auth::user()->name }}</p>
           <span class="text-[10px] text-muted-foreground font-medium">{{ Auth::user()->role_label }}</span>
+          @if(session('last_login'))
+            <span class="block text-[10px] text-[#7f8a83]">Login: {{ \Carbon\Carbon::parse(session('last_login'))->format('d M Y H:i') }}</span>
+          @endif
         </div>
       </div>
     @else

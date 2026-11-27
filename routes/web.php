@@ -26,27 +26,33 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('question/store', [QuestionController::class, 'store'])->name('question.store');
 Route::get('question/respon', [QuestionController::class, 'respon'])->name('question.respon');
 
-// Main Admin Dashboard
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// Protected Routes (Wajib Login)
+Route::middleware(['checkislogin'])->group(function () {
+    // Main Admin Dashboard
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// CRUD Pelanggan (Data Pembeli)
-Route::resource('pelanggan', PelangganController::class);
+    // Khusus Role Admin
+    Route::middleware(['checkrole:admin'])->group(function () {
+        // CRUD Pelanggan (Data Pembeli)
+        Route::resource('pelanggan', PelangganController::class);
 
-// CRUD User & Quick Role Switcher
-Route::patch('user/{id}/role', [UserController::class, 'updateRole'])->name('user.update-role');
-Route::resource('user', UserController::class);
+        // CRUD User & Quick Role Switcher
+        Route::patch('user/{id}/role', [UserController::class, 'updateRole'])->name('user.update-role');
+        Route::resource('user', UserController::class);
 
-// CRUD Mitra
-Route::resource('mitra', MitraController::class);
+        // CRUD Mitra
+        Route::resource('mitra', MitraController::class);
 
-// CRUD Kurir
-Route::resource('kurir', KurirController::class);
+        // CRUD Kurir
+        Route::resource('kurir', KurirController::class);
 
-// Verifikasi Akun (Mitra, Kurir, Admin)
-Route::prefix('admin/verification')->name('admin.verification.')->group(function () {
-    Route::get('/', [VerificationController::class, 'index'])->name('index');
-    Route::patch('/{id}/approve', [VerificationController::class, 'approve'])->name('approve');
-    Route::patch('/{id}/reject', [VerificationController::class, 'reject'])->name('reject');
+        // Verifikasi Akun (Mitra, Kurir, Admin)
+        Route::prefix('admin/verification')->name('admin.verification.')->group(function () {
+            Route::get('/', [VerificationController::class, 'index'])->name('index');
+            Route::patch('/{id}/approve', [VerificationController::class, 'approve'])->name('approve');
+            Route::patch('/{id}/reject', [VerificationController::class, 'reject'])->name('reject');
+        });
+    });
 });
 
 /*
