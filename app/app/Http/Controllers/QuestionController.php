@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class QuestionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the r    esource.
      */
     public function index()
     {
